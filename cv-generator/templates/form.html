@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional CV Generator</title>
+<link rel="stylesheet" href="/cv-generator/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-file-alt"></i> Professional CV Generator</h1>
+      <p>Fill in your details to create a stunning CV</p>
+    </header>
+
+<form id="cvForm" action="/cv-generator/generate" method="POST">
+      <!-- Personal Information Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-user"></i> Personal Information</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Full Name*</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="birthplace">Place of Birth*</label>
+            <input type="text" id="birthplace" name="birthplace" placeholder="New York, USA" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone* (max 13 digits)</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1234567890" maxlength="13" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email*</label>
+            <input type="email" id="email" name="email" placeholder="john.doe@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="website">Website (optional)</label>
+            <input type="url" id="website" name="website" placeholder="https://yourwebsite.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="linkedin">LinkedIn*</label>
+            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile" required>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="address">Address* (max 20 characters)</label>
+            <input type="text" id="address" name="address" placeholder="123 Main St, City" maxlength="20" required>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="about">About Me*</label>
+            <textarea id="about" name="about" rows="4" placeholder="Briefly describe yourself, your professional goals and key attributes..." required></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+        <div id="experienceContainer">
+          <div class="experience-entry form-grid">
+            <div class="form-group">
+              <label>Company Name*</label>
+              <input type="text" name="exp_company[]" placeholder="Google Inc." required>
+            </div>
+            
+            <div class="form-group">
+              <label>Company Location*</label>
+              <input type="text" name="exp_location[]" placeholder="Mountain View, CA" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Position*</label>
+              <input type="text" name="exp_position[]" placeholder="Senior Software Engineer" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Start Date*</label>
+              <input type="date" name="exp_start[]" required>
+            </div>
+            
+            <div class="form-group">
+              <label>End Date</label>
+              <input type="date" name="exp_end[]">
+              <div class="checkbox-group">
+                <input type="checkbox" name="exp_current[]" id="exp_current_1" value="1">
+                <label for="exp_current_1">Still Working</label>
+              </div>
+            </div>
+            
+            <div class="form-group full-width">
+              <label>Description* (use '-' for bullet points)</label>
+              <textarea name="exp_description[]" rows="3" placeholder="- Developed new features for the core product\n- Led a team of 5 engineers" required></textarea>
+            </div>
+            
+            <button type="button" class="remove-btn" onclick="removeExperience(this)"><i class="fas fa-trash"></i> Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Another Experience</button>
+      </section>
+
+      <!-- Education Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-graduation-cap"></i> Education & Training</h2>
+        <div id="educationContainer">
+          <div class="education-entry form-grid">
+            <div class="form-group">
+              <label>Institute*</label>
+              <input type="text" name="edu_institute[]" placeholder="Harvard University" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Program/Course*</label>
+              <input type="text" name="edu_program[]" placeholder="Master of Computer Science" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Location*</label>
+              <input type="text" name="edu_location[]" placeholder="Cambridge, MA" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Start Date*</label>
+              <input type="date" name="edu_start[]" required>
+            </div>
+            
+            <div class="form-group">
+              <label>End Date*</label>
+              <input type="date" name="edu_end[]" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Grade</label>
+              <input type="text" name="edu_grade[]" placeholder="GPA: 3.8/4.0">
+            </div>
+            
+            <div class="form-group full-width">
+              <label>Description</label>
+              <textarea name="edu_description[]" rows="2" placeholder="Relevant coursework, honors, or special projects"></textarea>
+            </div>
+            
+            <button type="button" class="remove-btn" onclick="removeEducation(this)"><i class="fas fa-trash"></i> Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Another Education</button>
+      </section>
+
+      <!-- Languages Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-language"></i> Languages</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Mother Tongue* (max 1)</label>
+            <input type="text" name="mother_tongue" placeholder="English" required>
+          </div>
+        </div>
+        
+        <div id="languagesContainer">
+          <div class="language-entry form-grid">
+            <div class="form-group">
+              <label>Language*</label>
+              <input type="text" name="lang_name[]" placeholder="French" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Listening*</label>
+              <select name="lang_listening[]" required>
+                <option value="">Select level</option>
+                <option value="A1">A1 (Beginner)</option>
+                <option value="A2">A2 (Elementary)</option>
+                <option value="B1">B1 (Intermediate)</option>
+                <option value="B2">B2 (Upper Intermediate)</option>
+                <option value="C1">C1 (Advanced)</option>
+                <option value="C2">C2 (Proficient)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Reading*</label>
+              <select name="lang_reading[]" required>
+                <option value="">Select level</option>
+                <option value="A1">A1 (Beginner)</option>
+                <option value="A2">A2 (Elementary)</option>
+                <option value="B1">B1 (Intermediate)</option>
+                <option value="B2">B2 (Upper Intermediate)</option>
+                <option value="C1">C1 (Advanced)</option>
+                <option value="C2">C2 (Proficient)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Spoken*</label>
+              <select name="lang_spoken[]" required>
+                <option value="">Select level</option>
+                <option value="A1">A1 (Beginner)</option>
+                <option value="A2">A2 (Elementary)</option>
+                <option value="B1">B1 (Intermediate)</option>
+                <option value="B2">B2 (Upper Intermediate)</option>
+                <option value="C1">C1 (Advanced)</option>
+                <option value="C2">C2 (Proficient)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Spoken Interaction*</label>
+              <select name="lang_interaction[]" required>
+                <option value="">Select level</option>
+                <option value="A1">A1 (Beginner)</option>
+                <option value="A2">A2 (Elementary)</option>
+                <option value="B1">B1 (Intermediate)</option>
+                <option value="B2">B2 (Upper Intermediate)</option>
+                <option value="C1">C1 (Advanced)</option>
+                <option value="C2">C2 (Proficient)</option>
+              </select>
+            </div>
+            
+            <button type="button" class="remove-btn" onclick="removeLanguage(this)"><i class="fas fa-trash"></i> Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addLanguage()"><i class="fas fa-plus"></i> Add Another Language</button>
+      </section>
+
+      <!-- Skills Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-tools"></i> Skills</h2>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Communication & Interpersonal Skills* (comma separated)</label>
+            <input type="text" name="soft_skills" placeholder="Teamwork, Leadership, Public Speaking" required>
+            <small class="hint">Separate skills with commas</small>
+          </div>
+          
+          <div class="form-group full-width">
+            <label>Programming Skills* (comma separated)</label>
+            <input type="text" name="programming_skills" placeholder="Python, JavaScript, SQL, Java" required>
+            <small class="hint">Separate languages with commas</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-project-diagram"></i> Projects</h2>
+        <div id="projectsContainer">
+          <div class="project-entry form-grid">
+            <div class="form-group full-width">
+              <label>Project Description*</label>
+              <textarea name="project_description[]" rows="3" placeholder="Describe the project, your role, technologies used, and outcomes" required></textarea>
+            </div>
+            <button type="button" class="remove-btn" onclick="removeProject(this)"><i class="fas fa-trash"></i> Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addProject()"><i class="fas fa-plus"></i> Add Another Project</button>
+      </section>
+
+      <!-- Additional Links Section -->
+      <section class="form-section">
+        <h2><i class="fas fa-link"></i> Additional Links</h2>
+        <div id="linksContainer">
+          <div class="link-entry form-grid">
+            <div class="form-group">
+              <label>Link URL</label>
+              <input type="url" name="additional_links[]" placeholder="https://example.com">
+            </div>
+            <button type="button" class="remove-btn" onclick="removeLink(this)"><i class="fas fa-trash"></i> Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addLink()"><i class="fas fa-plus"></i> Add Another Link</button>
+      </section>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button type="submit" class="submit-btn"><i class="fas fa-file-pdf"></i> Generate CV</button>
+        <button type="reset" class="reset-btn"><i class="fas fa-undo"></i> Reset Form</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Experience
+    let experienceCounter = 1;
+    function addExperience() {
+      experienceCounter++;
+      const container = document.getElementById('experienceContainer');
+      const newEntry = document.createElement('div');
+      newEntry.className = 'experience-entry form-grid';
+      newEntry.innerHTML = `
+        <div class="form-group">
+          <label>Company Name*</label>
+          <input type="text" name="exp_company[]" placeholder="Google Inc." required>
+        </div>
+        
+        <div class="form-group">
+          <label>Company Location*</label>
+          <input type="text" name="exp_location[]" placeholder="Mountain View, CA" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Position*</label>
+          <input type="text" name="exp_position[]" placeholder="Senior Software Engineer" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Start Date*</label>
+          <input type="date" name="exp_start[]" required>
+        </div>
+        
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" name="exp_end[]">
+          <div class="checkbox-group">
+            <input type="checkbox" name="exp_current[]" id="exp_current_${experienceCounter}" value="1">
+            <label for="exp_current_${experienceCounter}">Still Working</label>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Description* (use '-' for bullet points)</label>
+          <textarea name="exp_description[]" rows="3" placeholder="- Developed new features for the core product\n- Led a team of 5 engineers" required></textarea>
+        </div>
+        
+        <button type="button" class="remove-btn" onclick="removeExperience(this)"><i class="fas fa-trash"></i> Remove</button>
+      `;
+      container.appendChild(newEntry);
+    }
+
+    function removeExperience(button) {
+      if (document.querySelectorAll('.experience-entry').length > 1) {
+        button.closest('.experience-entry').remove();
+      } else {
+        alert("You need to have at least one experience entry.");
+      }
+    }
+
+    // Education
+    let educationCounter = 1;
+    function addEducation() {
+      educationCounter++;
+      const container = document.getElementById('educationContainer');
+      const newEntry = document.createElement('div');
+      newEntry.className = 'education-entry form-grid';
+      newEntry.innerHTML = `
+        <div class="form-group">
+          <label>Institute*</label>
+          <input type="text" name="edu_institute[]" placeholder="Harvard University" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Program/Course*</label>
+          <input type="text" name="edu_program[]" placeholder="Master of Computer Science" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Location*</label>
+          <input type="text" name="edu_location[]" placeholder="Cambridge, MA" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Start Date*</label>
+          <input type="date" name="edu_start[]" required>
+        </div>
+        
+        <div class="form-group">
+          <label>End Date*</label>
+          <input type="date" name="edu_end[]" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Grade</label>
+          <input type="text" name="edu_grade[]" placeholder="GPA: 3.8/4.0">
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Description</label>
+          <textarea name="edu_description[]" rows="2" placeholder="Relevant coursework, honors, or special projects"></textarea>
+        </div>
+        
+        <button type="button" class="remove-btn" onclick="removeEducation(this)"><i class="fas fa-trash"></i> Remove</button>
+      `;
+      container.appendChild(newEntry);
+    }
+
+    function removeEducation(button) {
+      if (document.querySelectorAll('.education-entry').length > 1) {
+        button.closest('.education-entry').remove();
+      } else {
+        alert("You need to have at least one education entry.");
+      }
+    }
+
+    // Languages
+    function addLanguage() {
+      const container = document.getElementById('languagesContainer');
+      const newEntry = document.createElement('div');
+      newEntry.className = 'language-entry form-grid';
+      newEntry.innerHTML = `
+        <div class="form-group">
+          <label>Language*</label>
+          <input type="text" name="lang_name[]" placeholder="French" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Listening*</label>
+          <select name="lang_listening[]" required>
+            <option value="">Select level</option>
+            <option value="A1">A1 (Beginner)</option>
+            <option value="A2">A2 (Elementary)</option>
+            <option value="B1">B1 (Intermediate)</option>
+            <option value="B2">B2 (Upper Intermediate)</option>
+            <option value="C1">C1 (Advanced)</option>
+            <option value="C2">C2 (Proficient)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Reading*</label>
+          <select name="lang_reading[]" required>
+            <option value="">Select level</option>
+            <option value="A1">A1 (Beginner)</option>
+            <option value="A2">A2 (Elementary)</option>
+            <option value="B1">B1 (Intermediate)</option>
+            <option value="B2">B2 (Upper Intermediate)</option>
+            <option value="C1">C1 (Advanced)</option>
+            <option value="C2">C2 (Proficient)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Spoken*</label>
+          <select name="lang_spoken[]" required>
+            <option value="">Select level</option>
+            <option value="A1">A1 (Beginner)</option>
+            <option value="A2">A2 (Elementary)</option>
+            <option value="B1">B1 (Intermediate)</option>
+            <option value="B2">B2 (Upper Intermediate)</option>
+            <option value="C1">C1 (Advanced)</option>
+            <option value="C2">C2 (Proficient)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Spoken Interaction*</label>
+          <select name="lang_interaction[]" required>
+            <option value="">Select level</option>
+            <option value="A1">A1 (Beginner)</option>
+            <option value="A2">A2 (Elementary)</option>
+            <option value="B1">B1 (Intermediate)</option>
+            <option value="B2">B2 (Upper Intermediate)</option>
+            <option value="C1">C1 (Advanced)</option>
+            <option value="C2">C2 (Proficient)</option>
+          </select>
+        </div>
+        
+        <button type="button" class="remove-btn" onclick="removeLanguage(this)"><i class="fas fa-trash"></i> Remove</button>
+      `;
+      container.appendChild(newEntry);
+    }
+
+    function removeLanguage(button) {
+      button.closest('.language-entry').remove();
+    }
+
+    // Projects
+    function addProject() {
+      const container = document.getElementById('projectsContainer');
+      const newEntry = document.createElement('div');
+      newEntry.className = 'project-entry form-grid';
+      newEntry.innerHTML = `
+        <div class="form-group full-width">
+          <label>Project Description*</label>
+          <textarea name="project_description[]" rows="3" placeholder="Describe the project, your role, technologies used, and outcomes" required></textarea>
+        </div>
+        <button type="button" class="remove-btn" onclick="removeProject(this)"><i class="fas fa-trash"></i> Remove</button>
+      `;
+      container.appendChild(newEntry);
+    }
+
+    function removeProject(button) {
+      if (document.querySelectorAll('.project-entry').length > 1) {
+        button.closest('.project-entry').remove();
+      } else {
+        alert("You need to have at least one project entry.");
+      }
+    }
+
+    // Links
+    function addLink() {
+      const container = document.getElementById('linksContainer');
+      const newEntry = document.createElement('div');
+      newEntry.className = 'link-entry form-grid';
+      newEntry.innerHTML = `
+        <div class="form-group">
+          <label>Link URL</label>
+          <input type="url" name="additional_links[]" placeholder="https://example.com">
+        </div>
+        <button type="button" class="remove-btn" onclick="removeLink(this)"><i class="fas fa-trash"></i> Remove</button>
+      `;
+      container.appendChild(newEntry);
+    }
+
+    function removeLink(button) {
+      if (document.querySelectorAll('.link-entry').length > 1) {
+        button.closest('.link-entry').remove();
+      } else {
+        alert("You need to have at least one link entry.");
+      }
+    }
+
+    // Form validation
+    document.getElementById('cvForm').addEventListener('submit', function(e) {
+      // You can add additional validation here if needed
+      console.log("Form submitted");
+    });
+  </script>
+</body>
+</html>

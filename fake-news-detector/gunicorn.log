@@ -1,0 +1,40 @@
+[2025-08-11 07:32:30 +0000] [66555] [INFO] Starting gunicorn 23.0.0
+[2025-08-11 07:32:30 +0000] [66555] [INFO] Listening at: http://0.0.0.0:8010 (66555)
+[2025-08-11 07:32:30 +0000] [66555] [INFO] Using worker: sync
+[2025-08-11 07:32:30 +0000] [66556] [INFO] Booting worker with pid: 66556
+[2025-08-11 07:32:30 +0000] [66557] [INFO] Booting worker with pid: 66557
+[2025-08-11 07:33:44 +0000] [66555] [CRITICAL] WORKER TIMEOUT (pid:66556)
+[2025-08-11 07:33:44 +0000] [66556] [ERROR] Error handling request (no URI read)
+Traceback (most recent call last):
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/workers/sync.py", line 133, in handle
+    req = next(parser)
+          ^^^^^^^^^^^^
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/parser.py", line 41, in __next__
+    self.mesg = self.mesg_class(self.cfg, self.unreader, self.source_addr, self.req_count)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/message.py", line 259, in __init__
+    super().__init__(cfg, unreader, peer_addr)
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/message.py", line 60, in __init__
+    unused = self.parse(self.unreader)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/message.py", line 271, in parse
+    self.get_data(unreader, buf, stop=True)
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/message.py", line 262, in get_data
+    data = unreader.read()
+           ^^^^^^^^^^^^^^^
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/unreader.py", line 36, in read
+    d = self.chunk()
+        ^^^^^^^^^^^^
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/http/unreader.py", line 63, in chunk
+    return self.sock.recv(self.mxchunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/html/fake-news-detector/venv/lib/python3.12/site-packages/gunicorn/workers/base.py", line 204, in handle_abort
+    sys.exit(1)
+SystemExit: 1
+[2025-08-11 07:33:44 +0000] [66556] [INFO] Worker exiting (pid: 66556)
+[2025-08-11 07:33:45 +0000] [66565] [INFO] Booting worker with pid: 66565
+[2025-08-11 07:33:57 +0000] [66557] [INFO] Worker exiting (pid: 66557)
+[2025-08-11 07:33:57 +0000] [66565] [INFO] Worker exiting (pid: 66565)
+[2025-08-11 07:33:57 +0000] [66555] [INFO] Handling signal: term
+[2025-08-11 07:33:57 +0000] [66555] [ERROR] Worker (pid:66565) was sent SIGTERM!
+[2025-08-11 07:33:58 +0000] [66555] [INFO] Shutting down: Master

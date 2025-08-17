@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact • Haseeb Sagheer</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/8643/8643765.png" />
+  <meta name="description" content="Contact Haseeb Sagheer — email, phone, and a simple message form.">
+
+  <style>
+    :root{
+      --bg-deep:#070a12;       /* near-black */
+      --bg-blue:#0b1324;       /* dark blue */
+      --bg-card:#0f1a33;       /* card blue */
+      --text:#ffffff;          /* white (primary font color) */
+      --accent:#ff9500;        /* orange for emphasis/links (secondary font color only) */
+      --muted:rgba(255,255,255,.78);
+      --ring:#23345d;          /* borders/shadows */
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius-lg:22px;
+      --maxw:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;
+      background:linear-gradient(180deg,var(--bg-deep),var(--bg-blue));
+      color:var(--text);
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.6;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline;opacity:.95}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+    .muted{color:var(--muted)}
+
+    /* NAV (trimmed to only relevant items) */
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:28px;height:28px;filter:grayscale(100%) brightness(100%)}
+    .brand span{font-weight:700;letter-spacing:.3px}
+    .links{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .nav-link{display:flex;gap:8px;align-items:center;font-weight:700;padding:8px 10px;border-radius:10px}
+    .nav-link.active{background:rgba(255,149,0,.12);border:1px solid var(--ring)}
+    .home-btn{display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:12px;border:1px solid var(--ring);background:transparent;color:var(--text);font-weight:800}
+
+    /* Icons */
+    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle;fill:currentColor}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;padding:24px 0;margin-top:8px}
+    .hero-card{background:radial-gradient(1200px 600px at 20% -10%,rgba(255,149,0,.08),transparent),linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+               border:1px solid var(--ring);box-shadow:var(--shadow);border-radius:var(--radius-lg);padding:22px}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase;font-size:.9rem}
+    h1{font-size:clamp(26px,4vw,40px);line-height:1.2;margin:6px 0 10px}
+    .subtitle{color:var(--muted);font-size:clamp(14px,2.1vw,16px)}
+
+    /* CARDS & GRIDS */
+    section{margin:24px 0}
+    .card{background:var(--bg-card);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    h2{font-size:clamp(20px,3vw,28px);margin:0 0 10px}
+    h3{font-size:clamp(16px,2.3vw,20px);margin:12px 0 10px}
+
+    /* Contact methods grid — responsive */
+    .methods{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .contact-item{display:flex;gap:12px;align-items:flex-start}
+    .contact-item .icon{width:22px;height:22px;margin-top:2px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+
+    /* FORM */
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    .form-grid .full{grid-column:1/-1}
+    label{display:block;font-weight:700;margin-bottom:6px}
+    input, textarea{
+      width:100%;padding:12px 12px;border-radius:12px;border:1px solid var(--ring);
+      background:#0c1731;color:var(--text);
+    }
+    textarea{min-height:160px;resize:vertical}
+    .form-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .btn{display:inline-block;padding:12px 16px;border-radius:12px;border:1px solid var(--ring);font-weight:800}
+    .btn.primary{background:var(--accent);color:var(--text)}
+    .btn.ghost{background:transparent;color:var(--text)}
+
+    /* FOOTER */
+    footer{margin-top:24px}
+    .foot{margin:34px 0 10px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));border:1px solid var(--ring);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center}
+
+    /* RESPONSIVE TWEAKS */
+    @media (max-width: 640px){
+      .links{gap:8px}
+      .home-btn{width:100%;justify-content:center}
+      .btn{width:100%;text-align:center}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- NAV (only Homepage, About, Contact, GitHub) -->
+    <nav class="nav" aria-label="Top">
+      <div class="brand">
+        <img alt="Anchor favicon" src="https://cdn-icons-png.flaticon.com/512/8643/8643765.png"/>
+        <span>Contact • Haseeb</span>
+      </div>
+      <div class="links">
+        <a href="https://haseebsagheer.com/" class="home-btn" title="Homepage">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
+          Homepage
+        </a>
+        <a href="https://haseebsagheer.com/about-me/" class="nav-link" title="About">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"/></svg>
+          About
+        </a>
+        <a href="https://haseebsagheer.com/contact-me" class="nav-link active" title="Contact">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>
+          Contact
+        </a>
+        <a href="https://github.com/engrhaseebsagheer" target="_blank" rel="noopener" class="nav-link" title="GitHub">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.8-.24.8-.54v-1.9c-3.26.71-3.95-1.57-3.95-1.57-.53-1.34-1.3-1.7-1.3-1.7-1.06-.73.08-.72.08-.72 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.74 1.27 3.41.97.1-.76.41-1.27.74-1.56-2.6-.3-5.35-1.3-5.35-5.8 0-1.28.46-2.34 1.2-3.16-.12-.3-.52-1.52.12-3.17 0 0 .98-.31 3.2 1.2a11.1 11.1 0 0 1 5.82 0c2.22-1.5 3.2-1.2 3.2-1.2.64 1.65.24 2.87.12 3.17.75.82 1.2 1.88 1.2 3.16 0 4.52-2.76 5.49-5.39 5.78.42.37.79 1.1.79 2.23v3.3c0 .3.21.65.8.54A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO (single clean card to avoid layout issues) -->
+    <header class="hero">
+      <div class="hero-card">
+        <div class="kicker">Get in touch</div>
+        <h1>Contact Me</h1>
+        <p class="subtitle">
+          Email is best for most things. For urgent matters, call me. I respond fast.
+        </p>
+
+        <!-- Contact methods: fully responsive auto-fit grid -->
+        <div class="methods">
+          <!-- Email -->
+          <div class="card">
+            <div class="contact-item">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>
+              <div>
+                <h3 style="margin:0 0 6px">Email</h3>
+                <div class="mono">engrhaseebsagheer@gmail.com</div>
+                <div class="form-actions" style="margin-top:8px">
+                  <a class="btn primary" href="mailto:engrhaseebsagheer@gmail.com?subject=Hello%20Haseeb">Email Me</a>
+                  <button class="btn ghost" type="button" onclick="copyToClipboard('engrhaseebsagheer@gmail.com', this)">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Phone -->
+          <div class="card">
+            <div class="contact-item">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.23c1.2.48 2.48.75 3.8.79a1 1 0 0 1 1 1V20a2 2 0 0 1-2 2C10.4 22 2 13.6 2 3a2 2 0 0 1 2-2h2.24a1 1 0 0 1 1 1c.04 1.32.31 2.6.79 3.8a1 1 0 0 1-.23 1.1L6.6 10.8Z"/></svg>
+              <div>
+                <h3 style="margin:0 0 6px">Phone</h3>
+                <div class="mono">+92 308 249 6103</div>
+                <div class="form-actions" style="margin-top:8px">
+                  <a class="btn primary" href="tel:+923082496103">Call</a>
+                  <button class="btn ghost" type="button" onclick="copyToClipboard('+923082496103', this)">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Location -->
+          <div class="card">
+            <div class="contact-item">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></svg>
+              <div>
+                <h3 style="margin:0 0 6px">Location</h3>
+                <div class="mono">Pakistan (On-Site too)</div>
+                <p class="muted" style="margin:8px 0 0">Available for freelance and contract work.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MESSAGE FORM -->
+    <section aria-label="Message form">
+      <div class="card">
+        <h2>Send a Message</h2>
+        <p class="muted" style="margin-top:0">This opens your email app with the details filled in.</p>
+        <form onsubmit="openMail(event)">
+          <div class="form-grid">
+            <div>
+              <label for="name">Your Name</label>
+              <input id="name" name="name" type="text" required placeholder="Your full name">
+            </div>
+            <div>
+              <label for="from">Your Email</label>
+              <input id="from" name="from" type="email" required placeholder="you@example.com">
+            </div>
+            <div class="full">
+              <label for="subject">Subject</label>
+              <input id="subject" name="subject" type="text" required placeholder="Project inquiry">
+            </div>
+            <div class="full">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required placeholder="Tell me a bit about your project..."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">Compose Email</button>
+            <a class="btn ghost" href="mailto:engrhaseebsagheer@gmail.com">Open Blank Email</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- AVAILABILITY -->
+    <section aria-label="Availability">
+      <div class="card">
+        <h2>Availability</h2>
+        <ul style="margin:0;padding-left:18px">
+          <li>Freelance and contract</li>
+
+          <li>On-Site first, quick responses</li>
+                    <li>Remote, flexible hours</li>
+          <li>Clear scope, quick responses</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="foot muted">
+        Built by Haseeb • Theme: dark blue & near-black • Font colors: white and orange only
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function copyToClipboard(text, btn){
+      navigator.clipboard.writeText(text).then(()=>{
+        const original = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(()=>{ btn.textContent = original; }, 1200);
+      });
+    }
+    function openMail(e){
+      e.preventDefault();
+      const name = encodeURIComponent(document.getElementById('name').value.trim());
+      const from = encodeURIComponent(document.getElementById('from').value.trim());
+      const subject = encodeURIComponent(document.getElementById('subject').value.trim());
+      const message = encodeURIComponent(document.getElementById('message').value.trim());
+      const body = `Name: ${name}%0D%0AEmail: ${from}%0D%0A%0D%0A${message}`;
+      const mailto = `mailto:engrhaseebsagheer@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+    }
+  </script>
+</body>
+</html>

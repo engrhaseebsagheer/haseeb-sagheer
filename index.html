@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Haseeb Sagheer | ML/AI/DS Portfolio</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5408/5408783.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Roboto+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #0b0f19;
+      --panel: #12182a;
+      --elev: #101626;
+      --text: #eaf0ff;
+      --muted: #a7b6d8;
+      --primary: #6C63FF;
+      --primary-2: #4D44DB;
+      --accent: #FF6584;
+      --card: #0f1423;
+      --ring: 0 0 0 .2rem rgba(108, 99, 255, .35);
+      --shadow: 0 15px 35px rgba(0,0,0,.35);
+      --radius: 16px;
+      --pad: clamp(14px, 2vw, 24px); /* unified side padding */
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 800px at 0% 0%, rgba(108,99,255,.12), transparent 60%),
+        radial-gradient(1200px 800px at 100% 100%, rgba(255,101,132,.10), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      font: 16px/1.65 "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
+      letter-spacing:.2px;
+      scroll-behavior:smooth;
+    }
+    a{color:#9fb4ff;text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* ============= FULL-WIDTH LAYOUT ============= */
+    .section{width:100%; padding-left:var(--pad); padding-right:var(--pad)}
+    .stack{max-width:1600px; margin:0 auto} /* keeps content readable on ultrawide but still edge-to-edge padding */
+
+    /* NAV */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent), rgba(16,22,38,.65);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px}
+    .logo{
+      width:40px;height:40px;border-radius:12px;background:
+        conic-gradient(from 210deg, #0d1425, #151f38, #0d1221);
+      box-shadow: inset 0 0 0 2px rgba(159,180,255,.35), var(--shadow);
+      position:relative;overflow:hidden;
+    }
+    .logo:after{content:"";position:absolute;inset:6px;border-radius:8px;
+      background:radial-gradient(120px 90px at 50% 0%, rgba(159,180,255,.35), transparent 60%),
+                 linear-gradient(180deg, rgba(255,255,255,.06), transparent)}
+    .links{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .link{color:var(--text);text-decoration:none;font-weight:600;padding:8px 10px;border-radius:10px}
+    .link:hover{color:#cfe1ff;background:rgba(255,255,255,.06)}
+    .cta{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 14px;border-radius:12px;font-weight:700;border:0;cursor:pointer;
+      background:linear-gradient(180deg, var(--primary), var(--primary-2));color:#0b0f19;
+      box-shadow:0 8px 20px rgba(108,99,255,.35); text-decoration:none;
+    }
+
+    /* HERO */
+    .hero{padding:56px 0 26px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+    @media (max-width: 1100px){.hero-grid{grid-template-columns:1fr}}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;
+      font-size:12px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12)}
+    .title{font-size:clamp(28px, 5vw, 56px);margin:.2rem 0 .6rem;font-weight:800;line-height:1.06}
+    .title-grad{background: linear-gradient(90deg, var(--primary), var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tagline{color:var(--muted);font-family:"Roboto Mono", monospace;font-size:1.05rem}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--panel);
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    @media (max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+    .stat{background:#0b1222;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;text-align:center}
+    .stat b{display:block;font-size:20px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{padding:12px 16px;border-radius:12px;font-weight:700;border:1px solid rgba(255,255,255,.14);background:#0b1222;color:#cfe1ff}
+    .btn:hover{box-shadow:var(--ring);text-decoration:none}
+    .btn.primary{background: linear-gradient(180deg, var(--primary), var(--primary-2)); color:#0b0f19;border:0}
+
+    /* SECTION HEAD (aligned fix) */
+    section{padding:34px 0}
+    .section-head{
+      display:flex;
+      align-items:center;               /* center title and CTA vertically */
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:12px
+    }
+    /* make sure CTA never floats weirdly */
+    .section-head .cta{position:static !important; align-self:center}
+    .section-title{font-size:28px;font-weight:800;letter-spacing:.3px}
+    .section-sub{color:var(--muted);font-size:.95rem}
+    @media (max-width:720px){
+      .section-head{flex-wrap:wrap}
+      .section-head .cta{width:100%;justify-content:center}
+    }
+
+    /* PROJECTS – full-width responsive 3/2/1 columns */
+    .projects{display:grid;grid-template-columns:repeat(3, 1fr);gap:18px}
+    @media (max-width: 1300px){.projects{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 720px){.projects{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--card);
+      border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+    .card h3{margin:.25rem 0 .5rem;color:#dbeafe}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .tag{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(108,99,255,.14);border:1px solid rgba(108,99,255,.35);color:#cfe1ff}
+    .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .link-btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0b1222;color:#cfe1ff;text-decoration:none}
+    .link-btn:hover{box-shadow:var(--ring)}
+    .more{margin-top:10px;font-size:.95rem;color:#b7c5e6}
+    details{margin-top:8px}
+    summary{cursor:pointer;color:#9fb4ff}
+
+    /* CERTS */
+    .certs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width: 1200px){.certs{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 720px){.certs{grid-template-columns:1fr}}
+    .cert-card{display:flex;gap:12px;align-items:center}
+    .cert-card .logo-mini{width:38px;height:38px;border-radius:10px;background:#101626;border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;font-size:18px}
+
+    /* CONTACT */
+    .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    @media (max-width: 1100px){.contact-grid{grid-template-columns:1fr}}
+    .form input,.form textarea{
+      width:100%;padding:12px 14px;margin-bottom:10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);
+      background:#0b1222;color:#eaf0ff;outline:none
+    }
+    .form input:focus,.form textarea:focus{box-shadow:var(--ring)}
+    .form textarea{min-height:140px;resize:vertical}
+    .contact-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#0b1222;border:1px solid rgba(255,255,255,.14);color:#cfe1ff;font-size:.95rem}
+
+    /* FOOTER */
+    footer{padding:22px var(--pad);color:var(--muted);text-align:center;border-top:1px solid rgba(255,255,255,.06);margin-top:28px}
+
+    /* ANIMATIONS */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1;transform:none}
+    .typed::after{content:"|";margin-left:4px;animation:blink 1s infinite;opacity:.6}
+    @keyframes blink{50%{opacity:0}}
+  </style>
+</head>
+<body>
+
+  <!-- NAV (links updated to your routed pages) -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>Haseeb Sagheer</div>
+      </div>
+      <div class="links">
+        <a class="link" href="https://haseebsagheer.com/about-me">About</a>
+        <a class="link" href="#projects">Projects</a>
+        <a class="link" href="#certs">Certifications</a>
+        <a class="link" href="https://haseebsagheer.com/contact-me">Contact</a>
+        <a class="cta" href="https://github.com/engrhaseebsagheer" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="section hero">
+    <div class="stack hero-grid">
+      <div class="hero-card reveal">
+        <div class="badge">Machine Learning • Artificial Intelligence • Data Science</div>
+        <h1 class="title">Turning data into <span class="title-grad">useful products</span>.</h1>
+        <div class="tagline typed" id="typed"></div>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">See Projects</a>
+          <a class="btn" href="https://haseebsagheer.com/titanic-survival-model" target="_blank" rel="noopener">Titanic Model</a>
+          <a class="btn" href="https://haseebsagheer.com/customer-churn-predictor" target="_blank" rel="noopener">Churn Predictor</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b>+15</b><span>End-to-end ML Apps</span></div>
+          <div class="stat"><b>+20</b><span>Datasets analyzed</span></div>
+          <div class="stat"><b>99%</b><span>Eval on news corpus*</span></div>
+        </div>
+        <div style="color:var(--muted);font-size:.8rem;margin-top:6px">* On held-out test set; real-world performance varies.</div>
+      </div>
+
+      <div class="hero-card reveal">
+        <h3 style="margin:0 0 8px">What I do</h3>
+        <ul style="margin:0;padding-left:18px;line-height:1.9">
+          <li>Text classification, feature engineering, evaluation</li>
+          <li>Model serving with Flask/Gunicorn, VPS deployments</li>
+          <li>Classical ML (LR/SVM/NB) and transformer fine-tuning</li>
+          <li>Clean, minimal UIs with accessible interactions</li>
+        </ul>
+        <div style="margin-top:12px;color:var(--muted);font-size:.95rem">Tools: Python, scikit-learn, pandas, NumPy, Flask, Gunicorn, Apache, VPS</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <div class="stack">
+      <div class="section-head">
+        <div>
+          <div class="section-title">Featured Projects</div>
+          <div class="section-sub">A mix of deployed apps and case studies.</div>
+        </div>
+      </div>
+
+      <div class="projects">
+
+        <!-- Customer Churn Predictor -->
+        <article class="card reveal">
+          <h3>📉 Customer Churn Predictor</h3>
+          <div class="meta">
+            <span class="tag">Classification</span>
+            <span class="tag">LogReg / Random Forest</span>
+            <span class="tag">EDA</span>
+          </div>
+          <p>
+            Predict which customers are likely to leave and why. Clear pipeline, solid baseline scores,
+            and insights like tenure, contract type, and billing patterns driving churn.
+          </p>
+          <details>
+            <summary>Highlights</summary>
+            <div class="more">
+              • Binary encoding + OHE · Stratified split<br>
+              • ROC-AUC ~0.84 · Accuracy ~80%<br>
+              • Feature importance for business actions
+            </div>
+          </details>
+          <div class="links">
+            <a class="link-btn" href="https://haseebsagheer.com/customer-churn-predictor" target="_blank" rel="noopener">Project Page</a>
+            <a class="link-btn" href="https://github.com/engrhaseebsagheer/customer-churn" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Titanic Survival Model -->
+        <article class="card reveal">
+          <h3>🚢 Titanic Survival Model</h3>
+          <div class="meta">
+            <span class="tag">Logistic Regression</span>
+            <span class="tag">Kaggle</span>
+            <span class="tag">EDA</span>
+          </div>
+          <p>
+            Predict survival using a clean, reusable baseline. Full write-up, styled tables, and a
+            notebook preview. Public leaderboard score at 0.76.
+          </p>
+          <details>
+            <summary>Highlights</summary>
+            <div class="more">
+              • Missing value handling and encoding<br>
+              • Validation accuracy ~81%<br>
+              • Kaggle submission and results
+            </div>
+          </details>
+          <div class="links">
+            <a class="link-btn" href="https://haseebsagheer.com/titanic-survival-model" target="_blank" rel="noopener">Project Page</a>
+            <a class="link-btn" href="https://github.com/engrhaseebsagheer/titanic-survival-model" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+
+        <!-- Fake News Detector -->
+        <article class="card reveal">
+          <h3>📰 Fake News Detector (Deployed)</h3>
+          <div class="meta">
+            <span class="tag">NLP</span>
+            <span class="tag">TF-IDF</span>
+            <span class="tag">LinearSVC</span>
+            <span class="tag">Flask + Gunicorn</span>
+          </div>
+          <p>
+            A style-based classifier trained on fake vs real news using TF-IDF word/char features and LinearSVC.
+            Productionized on a VPS with a clean UI and solid evaluation.
+          </p>
+          <details>
+            <summary>What I built</summary>
+            <div class="more">
+              • Pipeline: preprocessing → TF-IDF → baselines → evaluation → Flask API → deploy<br>
+              • Robust vectorization, confusion matrix, artifacts<br>
+              • Public demo with reverse proxy
+            </div>
+          </details>
+          <div class="links">
+            <a class="link-btn" href="https://haseebsagheer.com/fake-news-detector/" target="_blank" rel="noopener">Live Demo</a>
+            <a class="link-btn" href="https://github.com/engrhaseebsagheer/Fake-News-Detector" target="_blank" rel="noopener">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- CV Generator -->
+        <article class="card reveal">
+          <h3>🧾 CV Generator (Deployed)</h3>
+          <div class="meta">
+            <span class="tag">Flask</span>
+            <span class="tag">FPDF</span>
+            <span class="tag">VPS</span>
+          </div>
+          <p>
+            A fast, simple web app that turns form inputs into a polished PDF CV. Built with Flask + FPDF and deployed
+            with Gunicorn behind Apache on a VPS.
+          </p>
+          <details>
+            <summary>What I built</summary>
+            <div class="more">
+              • Clean form validation and PDF templates<br>
+              • Reverse-proxy setup and process management<br>
+              • Zero-JS fallback for compatibility
+            </div>
+          </details>
+          <div class="links">
+            <a class="link-btn" href="https://haseebsagheer.com/cv-generator/" target="_blank" rel="noopener">Live Demo</a>
+            <a class="link-btn" href="https://github.com/engrhaseebsagheer/cv-generator" target="_blank" rel="noopener">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- Time Series -->
+        <article class="card reveal">
+          <h3>📈 Time Series Forecasting</h3>
+          <div class="meta">
+            <span class="tag">LSTM</span>
+            <span class="tag">Prophet</span>
+            <span class="tag">Backtesting</span>
+          </div>
+          <p>
+            Prototyping deep learning and statistical approaches for financial series with proper backtesting,
+            leakage control, and interpretable diagnostics.
+          </p>
+          <details>
+            <summary>What I built</summary>
+            <div class="more">
+              • Sliding-window training · walk-forward validation<br>
+              • Error analysis and residual diagnostics<br>
+              • Comparisons across ARIMA/Prophet/LSTM
+            </div>
+          </details>
+        </article>
+
+        <!-- AI Portfolio Site -->
+        <article class="card reveal">
+          <h3>🧠 AI Portfolio Website</h3>
+          <div class="meta">
+            <span class="tag">Product</span>
+            <span class="tag">UI</span>
+            <span class="tag">Deploy</span>
+          </div>
+          <p>
+            Hub for interactive demos, writeups, and model cards. Built for fast loads and clean design.
+          </p>
+          <details>
+            <summary>Roadmap</summary>
+            <div class="more">
+              • Add blog posts with code snippets<br>
+              • Ship a small MLOps tutorial section<br>
+              • More interactive NLP demos
+            </div>
+          </details>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs" class="section">
+    <div class="stack">
+      <div class="section-head">
+        <div>
+          <div class="section-title">Certifications</div>
+          <div class="section-sub">Selected badges and coursework.</div>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="certs">
+          <div class="cert-card">
+            <div class="logo-mini">🎖️</div>
+            <div>
+              <div><b>Credly Profile</b></div>
+              <div class="section-sub">Verified digital badges</div>
+              <div><a href="https://www.credly.com/users/haseeb-sagheer" target="_blank" rel="noopener">credly.com/users/haseeb-sagheer</a></div>
+            </div>
+          </div>
+
+          <div class="cert-card">
+            <div class="logo-mini">📘</div>
+            <div>
+              <div><b>Coursera Profile</b></div>
+              <div class="section-sub">ML/AI courses and specializations</div>
+              <div><a href="https://www.coursera.org/learner/haseeb-sagheer" target="_blank" rel="noopener">coursera.org/learner/haseeb-sagheer</a></div>
+            </div>
+          </div>
+
+          <div class="cert-card">
+            <div class="logo-mini">📚</div>
+            <div>
+              <div><b>Selected Coursework</b></div>
+              <div class="section-sub">Statistics, ML, DS pipelines</div>
+              <div>Regression • Classification • Time Series • NLP</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="stack">
+      <div class="section-head">
+        <div>
+          <div class="section-title">Contact Me</div>
+          <div class="section-sub">Let’s build something useful.</div>
+        </div>
+        <a class="cta" href="https://haseebsagheer.com/contact-me">Go to Contact Page</a>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card reveal">
+          <h3 style="margin:.25rem 0 10px">Send a quick message</h3>
+          <form class="form" id="contactForm">
+            <input type="text" id="name" placeholder="Your name" required />
+            <input type="email" id="email" placeholder="Your email" required />
+            <textarea id="message" placeholder="Your message..." required></textarea>
+            <div class="contact-actions">
+              <button class="cta" type="submit">Send</button>
+              <button class="btn" type="button" id="clearForm">Clear</button>
+            </div>
+            <div id="contactStatus" style="margin-top:8px;color:var(--muted)"></div>
+          </form>
+          <div style="font-size:.9rem;color:var(--muted);margin-top:10px">
+            This uses your email client via <code>mailto:</code> so there’s no server required.
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <h3 style="margin:.25rem 0 10px">Quick links</h3>
+          <div class="chip">📞 <a href="tel:+923082496103" style="color:#cfe1ff;text-decoration:none">+92 308 2496103</a></div>
+          <div class="chip">✉️ <a href="mailto:engrhaseebsagheer@gmail.com" style="color:#cfe1ff;text-decoration:none">engrhaseebsagheer@gmail.com</a></div>
+          <div class="chip">💼 <a href="https://haseebsagheer.com/about-me" style="color:#cfe1ff;text-decoration:none">About Me</a></div>
+          <div class="chip">🌐 <a href="https://haseebsagheer.com" target="_blank" rel="noopener" style="color:#cfe1ff;text-decoration:none">Homepage</a></div>
+          <div class="chip">💻 <a href="https://github.com/engrhaseebsagheer" target="_blank" rel="noopener" style="color:#cfe1ff;text-decoration:none">GitHub</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Haseeb Sagheer. Built with care. All rights reserved.
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Typed effect for tagline
+    const lines = [
+      "NLP • text classification • evaluation",
+      "End-to-end ML: from notebook to production",
+      "Flask + Gunicorn deployments on VPS",
+      "Logistic Regression • Linear SVM • Naive Bayes"
+    ];
+    const typedEl = document.getElementById('typed');
+    let li = 0, ci = 0, back = false;
+    function tick(){
+      const full = lines[li];
+      if(!back){
+        ci++; typedEl.textContent = full.slice(0, ci);
+        if(ci === full.length){ back = true; setTimeout(tick, 1300); return; }
+        setTimeout(tick, 28);
+      } else {
+        ci--; typedEl.textContent = full.slice(0, ci);
+        if(ci === 0){ back = false; li = (li+1) % lines.length; setTimeout(tick, 300); return; }
+        setTimeout(tick, 22);
+      }
+    }
+    tick();
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target);} })
+    }, {threshold:.12});
+    revealEls.forEach(el=>io.observe(el));
+
+    // Contact form -> mailto
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('contactStatus');
+    document.getElementById('clearForm').addEventListener('click', ()=>{
+      form.reset(); status.textContent = "";
+    });
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name || !email || !message){
+        status.textContent = "Please complete all fields.";
+        return;
+      }
+      const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+      const body = encodeURIComponent(`From: ${name} <${email}>\n\n${message}`);
+      const href = `mailto:engrhaseebsagheer@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = href;
+      status.textContent = "Opening your email client...";
+    });
+
+    // Smooth anchor offset (for sticky nav)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){
+          e.preventDefault();
+          const top = el.getBoundingClientRect().top + window.scrollY - 64;
+          window.scrollTo({top, behavior:'smooth'});
+        }
+      });
+    });
+  </script>
+</body>
+</html>

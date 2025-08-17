@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Titanic Survival Model</title>
+  <link rel="icon" href="https://cdn2.iconfinder.com/data/icons/anchor-8/288/anchor-02-512.png" />
+  <meta name="description" content="Titanic Survival Model — portfolio page with project overview, EDA, model training, and results." />
+
+  <style>
+    :root{
+      --bg-deep:#070a12;       /* near-black */
+      --bg-blue:#0b1324;       /* dark blue */
+      --bg-card:#0f1a33;       /* darker blue for cards */
+      --text:#ffffff;          /* white (primary font color) */
+      --accent:#ff9500;        /* orange for emphasis/links (secondary font color only) */
+      --muted:rgba(255,255,255,.78); /* lighter white for subtle text (still white family) */
+      --ring:#23345d;          /* borders/shadows (not a font color) */
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius-lg:22px;
+      --maxw:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg-deep),var(--bg-blue));color:var(--text);font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";line-height:1.6}
+    img{max-width:100%;display:block}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{opacity:.95;text-decoration:underline}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+
+    /* Top Nav */
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:28px;height:28px;filter:grayscale(100%) brightness(100%)}
+    .brand span{font-weight:700;letter-spacing:.3px}
+    .links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+    .links a{font-weight:700;display:flex;gap:8px;align-items:center}
+    .home-btn{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid var(--ring);background:transparent;color:var(--text);font-weight:800}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:24px;margin-top:8px}
+    .hero-card{background:radial-gradient(1200px 600px at 20% -10%,rgba(255,149,0,.08),transparent),linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+               border:1px solid var(--ring);box-shadow:var(--shadow);border-radius:var(--radius-lg);padding:28px}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase;font-size:.9rem}
+    h1{font-size:clamp(26px,4vw,40px);line-height:1.2;margin:6px 0 10px}
+    .subtitle{color:var(--muted);font-size:clamp(14px,2.1vw,16px)}
+    .hero-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .metric{background:var(--bg-card);border:1px solid var(--ring);border-radius:14px;padding:14px;text-align:center}
+    .metric strong{display:block;font-size:1.2rem;color:var(--text)}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-block;padding:12px 16px;border-radius:12px;border:1px solid var(--ring);font-weight:800}
+    .btn.primary{background:var(--accent);color:var(--text)} /* white text on orange */
+    .btn.ghost{background:transparent;color:var(--text)}
+
+    /* Sections */
+    section{margin:28px 0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{background:var(--bg-card);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    h2{font-size:clamp(20px,3vw,28px);margin:0 0 10px}
+    h3{font-size:clamp(16px,2.3vw,20px);margin:12px 0 10px}
+    .list{margin:0;padding-left:18px}
+    .list li{margin:6px 0}
+
+    /* DataFrame-style tables */
+    table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--ring);border-radius:14px;overflow:hidden;display:block}
+    thead th{position:sticky;top:0;background:#0c1731;color:var(--text);text-align:left;padding:10px;border-bottom:1px solid var(--ring);font-weight:800}
+    tbody td{padding:10px;border-bottom:1px solid var(--ring);color:var(--text)}
+    tbody tr:nth-child(odd){background:rgba(255,255,255,.03)}
+    tbody tr:hover{background:rgba(255,149,0,.06)}
+    .df-note{color:var(--muted);font-size:.9rem;margin:8px 0 0}
+
+    /* Steps */
+    .steps{display:grid;gap:10px}
+    .step{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));border:1px dashed var(--ring);border-radius:14px;padding:14px}
+    .step strong{color:var(--accent)}
+
+    /* Notebook box */
+    .nb-wrap{border:1px solid var(--ring);border-radius:14px;overflow:hidden;background:#0c1731;box-shadow:var(--shadow)}
+    .nb-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--ring);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.00))}
+    .nb-title{font-weight:800}
+    .nb-iframe{width:100%;height:720px;border:0;display:block;background:#0c1731}
+    .nb-note{color:var(--muted);font-size:.9rem;margin-top:8px}
+
+    /* Footer */
+    .footer{margin:38px 0 10px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));border:1px solid var(--ring);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+    .proj{background:var(--bg-card);border:1px solid var(--ring);border-radius:14px;padding:14px}
+    .proj h4{margin:0 0 6px}
+    .badge{display:inline-block;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:800;margin-left:8px}
+    .muted{color:var(--muted)}
+
+    /* Mobile / Tablet */
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .hero-metrics{grid-template-columns:repeat(3,1fr)}
+      .grid-2{grid-template-columns:1fr}
+      .projects{grid-template-columns:1fr 1fr}
+      .nb-iframe{height:560px}
+    }
+    @media (max-width: 640px){
+      .links{display:none}
+      .hero-metrics{grid-template-columns:1fr 1fr}
+      .projects{grid-template-columns:1fr}
+      .btn{width:100%;text-align:center}
+      .home-btn{width:100%;justify-content:center}
+      .nb-iframe{height:520px}
+    }
+
+    /* Inline SVG icons should be white or orange only */
+    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle;fill:currentColor}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- NAV -->
+    <nav class="nav" aria-label="Top">
+      <div class="brand">
+        <img alt="Anchor favicon" src="https://cdn2.iconfinder.com/data/icons/anchor-8/288/anchor-02-512.png"/>
+        <span>Titanic Survival Model</span>
+      </div>
+      <div class="links">
+        <a href="https://haseebsagheer.com/" class="home-btn">
+          <!-- Home icon -->
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
+          Homepage
+        </a>
+        <a href="#overview" title="Overview">
+          <!-- Info icon -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"/></svg>
+          Overview
+        </a>
+        <a href="#workflow" title="Workflow">
+          <!-- Flow icon -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M7 5h10v4H7V5Zm0 10h10v4H7v-4Zm0-5h10v4H7v-4Z"/></svg>
+          Workflow
+        </a>
+        <a href="#training" title="Model">
+          <!-- Chip icon -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9 3h6v2h2a2 2 0 0 1 2 2v2h2v2h-2v2h2v2h-2v2a2 2 0 0 1-2 2h-2v2H9v-2H7a2 2 0 0 1-2-2v-2H3v-2h2v-2H3V9h2V7a2 2 0 0 1 2-2h2V3Zm-2 6v6h10V9H7Z"/></svg>
+          Model
+        </a>
+        <a href="#results" title="Results">
+          <!-- Trophy icon -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M18 4h2a1 1 0 0 1 1 1v1a5 5 0 0 1-5 5h-.1A6 6 0 0 1 13 14h3v2H8v-2h3a6 6 0 0 1-2.9-3H8a5 5 0 0 1-5-5V5a1 1 0 0 1 1-1h2V3h12v1ZM6 6H4v1a3 3 0 0 0 3 3h.3A6 6 0 0 1 6 8.5V6Zm14 0h-2v2.5a6 6 0 0 1-1.3 1.5H17a3 3 0 0 0 3-3V6Z"/></svg>
+          Results
+        </a>
+        <a href="#notebook" title="Notebook">
+          <!-- Doc icon -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1v5h5"/></svg>
+          Notebook
+        </a>
+        <a href="https://github.com/engrhaseebsagheer/titanic-survival-model/" target="_blank" rel="noopener" title="Source Code">
+          <!-- External link icon -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3ZM5 5h6v2H7v10h10v-4h2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>
+          Source
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-card">
+        <div class="kicker">Portfolio Case Study</div>
+        <h1>Titanic Survival Prediction</h1>
+        <p class="subtitle">
+          Predict whether a passenger survived the Titanic disaster using a simple pipeline:
+          data loading → EDA → preprocessing → <strong>Logistic Regression</strong> → evaluation → Kaggle submission.
+        </p>
+        <div class="hero-metrics" role="list">
+          <div class="metric" role="listitem">
+            <span class="muted">Validation Accuracy</span>
+            <strong>~81%</strong>
+          </div>
+          <div class="metric" role="listitem">
+            <span class="muted">Kaggle Score</span>
+            <strong>0.76</strong>
+          </div>
+          <div class="metric" role="listitem">
+            <span class="muted">Model</span>
+            <strong>LogReg</strong>
+          </div>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="https://github.com/engrhaseebsagheer/titanic-survival-model/" target="_blank" rel="noopener">View Source on GitHub</a>
+          <a class="btn ghost" href="#results">Skip to Results</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Project quick facts">
+        <h3>Quick Facts</h3>
+        <ul class="list">
+          <li><strong>Type:</strong> Supervised binary classification</li>
+          <li><strong>Target:</strong> <code>Survived</code> (0 = no, 1 = yes)</li>
+          <li><strong>Main features:</strong> Pclass, Sex, Age, SibSp, Parch, Fare, Embarked</li>
+          <li><strong>Why Logistic Regression?</strong> Simple, solid baseline and interpretable</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="grid-2">
+      <article class="card">
+        <h2>📌 Project Overview</h2>
+        <p>
+          This project predicts passenger survival on the Titanic using the classic Kaggle dataset.
+          The flow is straightforward: load the data, explore it, clean it, train a logistic regression model, and evaluate.
+        </p>
+        <div class="steps" aria-label="High-level steps">
+          <div class="step"><strong>1.</strong> Load <code>train.csv</code> and <code>test.csv</code></div>
+          <div class="step"><strong>2.</strong> Explore with summary stats and missing values</div>
+          <div class="step"><strong>3.</strong> Clean & encode features</div>
+          <div class="step"><strong>4.</strong> Train Logistic Regression</div>
+          <div class="step"><strong>5.</strong> Validate and tune basics</div>
+          <div class="step"><strong>6.</strong> Predict on test and submit to Kaggle</div>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h2>Understanding the Problem</h2>
+        <p><strong>Goal:</strong> Build a reliable baseline that predicts whether a passenger survived, using features available at embarkation time (no leakage).</p>
+        <p><strong>Business framing:</strong> In a real setting, similar classification helps allocate limited resources to higher-risk passengers or improve safety protocols by identifying drivers of survival.</p>
+        <p><strong>Success metric:</strong> Validation accuracy (~81% here) and a consistent public leaderboard score (0.76) after submitting predictions to Kaggle.</p>
+        <p><strong>Key assumptions:</strong> <code>Cabin</code> is dropped due to high missingness; <code>Sex</code> is binary-encoded; missing <code>Age</code> and <code>Embarked</code> are imputed; features are kept simple to highlight a clean baseline before engineering.</p>
+        <p><strong>Constraints:</strong> Keep the model lightweight and explainable; ensure identical preprocessing on train and test to avoid leakage.</p>
+      </aside>
+    </section>
+
+    <!-- DATA EXPLORATION -->
+    <section id="eda" class="grid-2" aria-label="Exploration">
+      <div class="card">
+        <h2>Loading & Exploring Data</h2>
+        <p>Basic checks used:</p>
+        <ul class="list">
+          <li><code>data.info()</code>, <code>data.describe()</code>, <code>data.head()</code></li>
+          <li><code>data.isnull().sum()</code> to inspect missing values</li>
+        </ul>
+
+        <h3>Missing Values (typical)</h3>
+        <div style="overflow:auto">
+          <table aria-label="Sample missing values table">
+            <thead>
+              <tr><th>Column</th><th>Missing</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Age</td><td>~20%</td></tr>
+              <tr><td>Cabin</td><td>High (dropped)</td></tr>
+              <tr><td>Embarked</td><td>Few (imputed)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="df-note">Note: This mirrors the common profile of the Titanic dataset.</p>
+      </div>
+
+      <div class="card">
+        <h2>Data Cleaning & Preprocessing</h2>
+        <ul class="list">
+          <li>Dropped <code>Cabin</code> due to too many missing values</li>
+          <li>Encoded <code>Sex</code> as binary (<code>male→1</code>, <code>female→0</code>)</li>
+          <li>Imputed missing values for <code>Age</code> and <code>Embarked</code></li>
+          <li>Assembled a reusable cleaning function for consistency</li>
+        </ul>
+        <p><strong>Result:</strong> A tidy numeric dataset ready for model training.</p>
+      </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section id="workflow" class="grid-2" aria-label="Workflow summary">
+      <div class="card">
+        <h2>Workflow Highlights</h2>
+        <ul class="list">
+          <li>Clear train/validation split</li>
+          <li>Simple baseline with Logistic Regression</li>
+          <li>Clean feature set to avoid leakage</li>
+          <li>Consistent preprocessing for train and test</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>What I’d Improve Next</h2>
+        <ul class="list">
+          <li>Feature engineering (titles, family size, ticket groups)</li>
+          <li>Regularization tuning</li>
+          <li>Model comparison (tree-based ensembles)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TRAINING -->
+    <section id="training" class="grid-2" aria-label="Model Training">
+      <div class="card">
+        <h2>Model Training</h2>
+        <p><strong>Estimator:</strong> <code>sklearn.linear_model.LogisticRegression</code></p>
+        <ul class="list">
+          <li>Baseline with sensible defaults</li>
+          <li>Focus on clean inputs and straightforward validation</li>
+          <li>Quick interpretability of feature effects</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Validation Snapshot</h2>
+        <div style="overflow:auto">
+          <table aria-label="Validation metrics">
+            <thead>
+              <tr><th>Metric</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Accuracy</td><td>~81%</td></tr>
+              <tr><td>Confusion Matrix</td><td>Balanced baseline</td></tr>
+              <tr><td>Notes</td><td>Good foundation; more features can improve</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="df-note">Tip: Feature engineering and model ensembles can push this further.</p>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results" aria-label="Results">
+      <div class="card">
+        <h2>Testing with Unseen Data</h2>
+        <p>Predictions were generated for <code>test.csv</code> and submitted to Kaggle.</p>
+        <div style="overflow:auto;margin-top:10px">
+          <table aria-label="Kaggle submission results">
+            <thead>
+              <tr><th>Submission</th><th>Public Score</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Titanic_LogReg_Baseline.csv</td><td>0.76</td><td>On Leaderboard</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>✅ Conclusion & Learnings</h2>
+        <ul class="list">
+          <li>Solid end-to-end workflow from data to predictions</li>
+          <li>Clean preprocessing drives stable results</li>
+          <li>Ready to extend with new features and stacks</li>
+        </ul>
+        <p><strong>Next:</strong> Reuse this structure on other datasets and iterate on features.</p>
+      </div>
+    </section>
+
+    <!-- NOTEBOOK (EMBEDDED) -->
+    <section id="notebook" aria-label="Notebook Preview">
+      <div class="card">
+        <h2>Notebook (HTML Preview)</h2>
+        <div class="nb-wrap">
+          <div class="nb-toolbar">
+            <div class="nb-title">titanic_eda.html</div>
+            <a class="btn ghost" href="titanic_eda.html" target="_blank" rel="noopener">
+              Open in new tab
+            </a>
+          </div>
+          <!-- Ensure titanic_eda.html is in the same folder as this file -->
+          <iframe class="nb-iframe" src="titanic_eda.html" title="Titanic EDA Notebook"></iframe>
+        </div>
+        <div class="nb-note">If the preview doesn’t load on your host, the direct link above will open the notebook in a new tab.</div>
+      </div>
+    </section>
+
+    <!-- OTHER PROJECTS -->
+    <section class="footer" aria-label="More projects">
+      <h2>More Projects</h2>
+      <div class="projects">
+        <div class="proj">
+          <h4><a href="https://haseebsagheer.com/fake-news-detector" target="_blank" rel="noopener">Fake News Detector (NLP)</a></h4>
+          <p class="muted">Web app + API that classifies news as real or fake. Deployed on VPS with HTTPS.</p>
+        </div>
+        <div class="proj">
+          <h4><a href="https://haseebsagheer.com/cv-generator" target="_blank" rel="noopener">CV Generator (Flask)</a></h4>
+          <p class="muted">Users enter details and get a downloadable PDF CV. Production on VPS.</p>
+        </div>
+        <div class="proj">
+          <h4>
+            <a href="https://github.com/engrhaseebsagheer/Cloud-Retail-Insights" target="_blank" rel="noopener">
+              Cloud Retail Insights (Azure)
+            </a>
+            <span class="badge">In Progress</span>
+          </h4>
+          <p class="muted">End-to-end retail analytics & forecasting with Azure services and dashboards.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:12px">You can view my completed and in progress projects too.</p>
+    </section>
+
+    <footer class="muted" style="text-align:center">
+      © 2025 Haseeb Sagheer. Built with care. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>

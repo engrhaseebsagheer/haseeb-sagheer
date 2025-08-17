@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About • Haseeb Sagheer</title>
+  <link rel="icon" href="https://icons.veryicon.com/png/o/weather/yochie-icons/me-8.png" />
+  <meta name="description" content="About Haseeb Sagheer — Data Scientist / AI-ML Engineer. Projects, skills, experience, and contact." />
+  <style>
+    :root{
+      --bg-deep:#070a12;       /* near-black */
+      --bg-blue:#0b1324;       /* dark blue */
+      --bg-card:#0f1a33;       /* card blue */
+      --text:#ffffff;          /* primary font color (white) */
+      --accent:#ff9500;        /* orange for accents / links (secondary font color) */
+      --muted:rgba(255,255,255,.78);
+      --ring:#23345d;          /* borders/shadows (not used for text) */
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius-lg:22px;
+      --maxw:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;
+      background:linear-gradient(180deg,var(--bg-deep),var(--bg-blue));
+      color:var(--text);
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.6
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline;opacity:.95}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+
+    /* NAV */
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:28px;height:28px;filter:grayscale(100%) brightness(100%)}
+    .brand span{font-weight:700;letter-spacing:.3px}
+    .links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+    .links a{font-weight:700;display:flex;gap:8px;align-items:center}
+    .btn{display:inline-block;padding:12px 16px;border-radius:12px;border:1px solid var(--ring);font-weight:800}
+    .btn.primary{background:var(--accent);color:var(--text)}
+    .btn.ghost{background:transparent;color:var(--text)}
+    .home-btn{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid var(--ring);background:transparent;color:var(--text);font-weight:800}
+
+    /* Icons */
+    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle;fill:currentColor}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:24px;margin-top:8px}
+    .hero-card{background:radial-gradient(1200px 600px at 20% -10%,rgba(255,149,0,.08),transparent),linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+               border:1px solid var(--ring);box-shadow:var(--shadow);border-radius:var(--radius-lg);padding:28px}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase;font-size:.9rem}
+    h1{font-size:clamp(26px,4vw,40px);line-height:1.2;margin:6px 0 10px}
+    .subtitle{color:var(--muted);font-size:clamp(14px,2.1vw,16px)}
+    .hero-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .metric{background:var(--bg-card);border:1px solid var(--ring);border-radius:14px;padding:14px;text-align:center}
+    .metric strong{display:block;font-size:1.2rem}
+
+    /* CARDS / SECTIONS */
+    section{margin:28px 0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--bg-card);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    h2{font-size:clamp(20px,3vw,28px);margin:0 0 10px}
+    h3{font-size:clamp(16px,2.3vw,20px);margin:12px 0 10px}
+    .muted{color:var(--muted)}
+
+    /* Bullets / badges */
+    .list{margin:0;padding-left:18px}
+    .list li{margin:6px 0}
+    .badge{display:inline-block;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 10px;font-size:.85rem;font-weight:800;margin:4px 6px 0 0}
+
+    /* Timeline */
+    .timeline{display:grid;gap:14px}
+    .t-item{border-left:2px solid var(--ring);padding-left:14px}
+    .t-item strong{color:var(--accent)}
+
+    /* Testimonials */
+    .quote{border-left:3px solid var(--accent);padding-left:14px;color:var(--muted);font-style:italic}
+
+    /* Footer */
+    .footer{margin:38px 0 10px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));border:1px solid var(--ring);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .links{display:none}
+      .grid-3{grid-template-columns:1fr}
+      .btn{width:100%;text-align:center}
+      .home-btn{width:100%;justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- NAV -->
+    <nav class="nav" aria-label="Top">
+      <div class="brand">
+        <img alt="Anchor favicon" src="https://icons.veryicon.com/png/o/weather/yochie-icons/me-8.png"/>
+        <span>About Haseeb</span>
+      </div>
+      <div class="links">
+        <a href="https://haseebsagheer.com/" class="home-btn" title="Homepage">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
+          Homepage
+        </a>
+        <a href="#about" title="About">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"/></svg>
+          About
+        </a>
+        <a href="#skills" title="Skills">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16v4H4V6Zm0 6h10v4H4v-4Z"/></svg>
+          Skills
+        </a>
+        <a href="#experience" title="Experience">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M7 6h10l2 3v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9l2-3Zm3 8h4v2h-4v-2Z"/></svg>
+          Experience
+        </a>
+        <a href="#projects" title="Projects">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 5h8v8H3V5Zm10 0h8v5h-8V5Zm0 7h8v7h-8v-7Z"/></svg>
+          Projects
+        </a>
+        <a href="#contact" title="Contact">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 6.5v11a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 17.5v-11A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5Zm-2 .5-6.6 4.4a1 1 0 0 1-1.1 0L4.8 7h14.2Z"/></svg>
+          Contact
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero" id="about">
+      <div class="hero-card">
+        <div class="kicker">About Me</div>
+        <h1>Haseeb Sagheer — Data Scientist / AI‑ML Engineer</h1>
+        <p class="subtitle">
+          I help teams turn data into decisions. I build clean, production‑ready ML systems and ship them:
+          from data pipelines and feature engineering to models, APIs, and dashboards.
+        </p>
+        <div class="hero-metrics">
+          <div class="metric">
+            <span class="muted">Focus Areas</span>
+            <strong>ML • NLP • Time‑Series</strong>
+          </div>
+          <div class="metric">
+            <span class="muted">Cloud & Deploy</span>
+            <strong>Azure • VPS</strong>
+          </div>
+          <div class="metric">
+            <span class="muted">Also</span>
+            <strong>Data Scientist</strong>
+          </div>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn primary" href="mailto:engrhaseebsagheer@gmail.com">Email Me</a>
+          <a class="btn ghost" href="https://github.com/engrhaseebsagheer" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn ghost" href="https://haseebsagheer.com" target="_blank" rel="noopener">Website</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Snapshot</h3>
+        <ul class="list">
+          <li>Built and deployed multiple ML apps on a VPS (Gunicorn + Apache + HTTPS)</li>
+          <li>Projects: Customer Churn, Fake News Detection, CV Generator, Cloud Retail Insights</li>
+          <li>Comfortable with Python, pandas, scikit‑learn, Flask, SQL, and Power BI</li>
+          <li>Learning path: mastering DS/AI/ML with a strong focus on practical delivery</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- WHAT I DO -->
+    <section class="grid-2">
+      <div class="card">
+        <h2>What I Do</h2>
+        <ul class="list">
+          <li><strong>End‑to‑end ML:</strong> data ingestion, EDA, feature engineering, model training, and evaluation</li>
+          <li><strong>APIs & Apps:</strong> Flask/REST services and small web UIs for inference</li>
+          <li><strong>Cloud:</strong> Azure storage, data processing, and deployment basics</li>
+          <li><strong>Visualization:</strong> clean dashboards and metric tracking for decisions</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>How I Work</h2>
+        <ul class="list">
+          <li>Keep it simple and readable; document the pipeline</li>
+          <li>Prefer interpretable baselines before tuning</li>
+          <li>Focus on data quality and repeatable preprocessing</li>
+          <li>Ship fast, then iterate with clear metrics</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="card">
+      <h2>Skills & Tools</h2>
+      <div>
+        <span class="badge">Python</span>
+        <span class="badge">pandas</span>
+        <span class="badge">NumPy</span>
+        <span class="badge">scikit‑learn</span>
+        <span class="badge">Matplotlib</span>
+        <span class="badge">Seaborn</span>
+        <span class="badge">Flask</span>
+        <span class="badge">SQL</span>
+        <span class="badge">Power BI</span>
+        <span class="badge">Azure</span>
+        <span class="badge">Databricks (basic)</span>
+        <span class="badge">Spark (basic)</span>
+        <span class="badge">Git</span>
+        <span class="badge">Linux/VPS</span>
+        <span class="badge">Unity (C#)</span>
+      </div>
+      <p class="muted" style="margin-top:10px">Always improving — currently deepening MLOps and cloud data engineering.</p>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="grid-2">
+      <div class="card">
+        <h2>Experience Highlights</h2>
+        <div class="timeline">
+          <div class="t-item">
+            <strong>Data Science & ML Projects (2025)</strong>
+            <div class="muted">End‑to‑end ML builds with real deployments on VPS and Azure. Focus on reliable baselines and clean pipelines.</div>
+          </div>
+          <div class="t-item">
+            <strong>Unity Game Dev (2022‑2023)</strong>
+            <div class="muted">Freelance work in C#/Unity: multiplayer, Firebase auth, Google Play IAP, VR (Quest 2).</div>
+          </div>
+          <div class="t-item">
+            <strong>B.S. Software Engineering (CUST)</strong>
+            <div class="muted">Solid foundation in software development, algorithms, and systems.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Values</h2>
+        <ul class="list">
+          <li><strong>Clarity:</strong> simple code and straight answers</li>
+          <li><strong>Reliability:</strong> tests, checks, and reproducible runs</li>
+          <li><strong>Delivery:</strong> working demos over slideware</li>
+          <li><strong>Learning:</strong> keep shipping, keep improving</li>
+        </ul>
+        <div class="quote" style="margin-top:10px">
+          “Data without interpretation is noise. Data with direction is power.”
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="card">
+      <h2>Featured Work</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3><a href="https://haseebsagheer.com/titanic-survival-model/">Titanic Survival Model</a></h3>
+          <p class="muted">Binary classification with clean EDA, preprocessing, logistic baseline, and Kaggle submission.</p>
+          <a class="btn ghost" href="https://github.com/engrhaseebsagheer/titanic-survival-model/" target="_blank" rel="noopener">Source</a>
+        </div>
+        <div class="card">
+          <h3><a href="https://haseebsagheer.com/customer-churn-predictor/">Customer Churn Prediction</a></h3>
+          <p class="muted">Business‑focused churn modeling with LR/RF, ROC‑AUC ~0.84, and practical insights.</p>
+          <a class="btn ghost" href="https://github.com/engrhaseebsagheer/customer-churn" target="_blank" rel="noopener">Source</a>
+        </div>
+        <div class="card">
+          <h3><a href="https://haseebsagheer.com/fake-news-detector" target="_blank" rel="noopener">Fake News Detector</a></h3>
+          <p class="muted">NLP app (web UI + API) deployed on VPS with HTTPS.</p>
+          <a class="btn ghost" href="https://haseebsagheer.com/fake-news-detector" target="_blank" rel="noopener">Live</a>
+        </div>
+      </div>
+      <div class="grid-3" style="margin-top:18px">
+        <div class="card">
+          <h3><a href="https://haseebsagheer.com/cv-generator" target="_blank" rel="noopener">CV Generator</a></h3>
+          <p class="muted">Flask app that turns form data into a PDF CV. Production on VPS.</p>
+          <a class="btn ghost" href="https://haseebsagheer.com/cv-generator" target="_blank" rel="noopener">Live</a>
+        </div>
+        <div class="card">
+          <h3><a href="https://github.com/engrhaseebsagheer/Cloud-Retail-Insights" target="_blank" rel="noopener">Cloud Retail Insights</a> <span class="badge">In Progress</span></h3>
+          <p class="muted">Azure data pipeline + forecasting with Databricks, SQL, and dashboards.</p>
+          <a class="btn ghost" href="https://github.com/engrhaseebsagheer/Cloud-Retail-Insights" target="_blank" rel="noopener">Repo</a>
+        </div>
+        <div class="card">
+          <h3><a href="https://www.fiverr.com/haseeb_sagheer" target="_blank" rel="noopener">Game Dev Portfolio</a></h3>
+          <p class="muted">Unity projects, Firebase auth, multiplayer, VR. Background that sharpened my engineering discipline.</p>
+          <a class="btn ghost" href="https://www.fiverr.com/haseeb_sagheer" target="_blank" rel="noopener">Profile</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="grid-2">
+      <div class="card">
+        <h2>Let’s Work Together</h2>
+        <p>Have a problem to solve or a product to ship? I’m open to roles and freelance work in data science and ML.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <a class="btn primary" href="mailto:engrhaseebsagheer@gmail.com">Email Me</a>
+          <a class="btn ghost" href="https://github.com/engrhaseebsagheer" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn ghost" href="https://haseebsagheer.com" target="_blank" rel="noopener">Website</a>
+        </div>
+        <p class="muted" style="margin-top:10px">Prefer a résumé? <a href="#" title="Add your PDF link here">Download PDF</a> (add your file link).</p>
+      </div>
+      <div class="card">
+        <h2>Quick Facts</h2>
+        <ul class="list">
+          <li>Location: Pakistan</li>
+          <li>Degree: B.S. Software Engineering (CUST)</li>
+          <li>Interests: ML systems, NLP, time‑series, data products</li>
+          <li>Working style: practical, clear, and delivery‑driven</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2025 Haseeb Sagheer. Built with care. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>

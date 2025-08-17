@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Telco Customer Churn Prediction</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/306/306812.png" />
+  <meta name="description" content="Telco Customer Churn Prediction — portfolio page with business framing, EDA, models, results, and an embedded notebook preview." />
+
+  <style>
+    :root{
+      --bg-deep:#070a12;       /* near-black */
+      --bg-blue:#0b1324;       /* dark blue */
+      --bg-card:#0f1a33;       /* card blue */
+      --text:#ffffff;          /* white (primary font color) */
+      --accent:#ff9500;        /* orange for emphasis/links (secondary font color only) */
+      --muted:rgba(255,255,255,.78);
+      --ring:#23345d;          /* borders/shadows */
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius-lg:22px;
+      --maxw:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg-deep),var(--bg-blue));color:var(--text);font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";line-height:1.6}
+    img{max-width:100%;display:block}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline;opacity:.95}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+
+    /* Nav */
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:28px;height:28px;filter:grayscale(100%) brightness(100%)}
+    .brand span{font-weight:700;letter-spacing:.3px}
+    .links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+    .links a{font-weight:700;display:flex;gap:8px;align-items:center}
+    .home-btn{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid var(--ring);background:transparent;color:var(--text);font-weight:800}
+
+    /* Icons */
+    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle;fill:currentColor}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:24px;margin-top:8px}
+    .hero-card{background:radial-gradient(1200px 600px at 20% -10%,rgba(255,149,0,.08),transparent),linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+               border:1px solid var(--ring);box-shadow:var(--shadow);border-radius:var(--radius-lg);padding:28px}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase;font-size:.9rem}
+    h1{font-size:clamp(26px,4vw,40px);line-height:1.2;margin:6px 0 10px}
+    .subtitle{color:var(--muted);font-size:clamp(14px,2.1vw,16px)}
+    .hero-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .metric{background:var(--bg-card);border:1px solid var(--ring);border-radius:14px;padding:14px;text-align:center}
+    .metric strong{display:block;font-size:1.2rem}
+
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-block;padding:12px 16px;border-radius:12px;border:1px solid var(--ring);font-weight:800}
+    .btn.primary{background:var(--accent);color:var(--text)}
+    .btn.ghost{background:transparent;color:var(--text)}
+
+    /* Sections */
+    section{margin:28px 0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{background:var(--bg-card);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    h2{font-size:clamp(20px,3vw,28px);margin:0 0 10px}
+    h3{font-size:clamp(16px,2.3vw,20px);margin:12px 0 10px}
+    .list{margin:0;padding-left:18px}
+    .list li{margin:6px 0}
+
+    /* DataFrame-like tables */
+    table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--ring);border-radius:14px;overflow:hidden;display:block}
+    thead th{position:sticky;top:0;background:#0c1731;color:var(--text);text-align:left;padding:10px;border-bottom:1px solid var(--ring);font-weight:800}
+    tbody td{padding:10px;border-bottom:1px solid var(--ring)}
+    tbody tr:nth-child(odd){background:rgba(255,255,255,.03)}
+    tbody tr:hover{background:rgba(255,149,0,.06)}
+    .df-note{color:var(--muted);font-size:.9rem;margin:8px 0 0}
+
+    /* Steps */
+    .steps{display:grid;gap:10px}
+    .step{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));border:1px dashed var(--ring);border-radius:14px;padding:14px}
+    .step strong{color:var(--accent)}
+
+    /* Notebook embed */
+    .nb-wrap{border:1px solid var(--ring);border-radius:14px;overflow:hidden;background:#0c1731;box-shadow:var(--shadow)}
+    .nb-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--ring);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.00))}
+    .nb-title{font-weight:800}
+    .nb-iframe{width:100%;height:720px;border:0;display:block;background:#0c1731}
+    .nb-note{color:var(--muted);font-size:.9rem;margin-top:8px}
+
+    /* Footer projects */
+    .footer{margin:38px 0 10px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));border:1px solid var(--ring);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+    .proj{background:var(--bg-card);border:1px solid var(--ring);border-radius:14px;padding:14px}
+    .proj h4{margin:0 0 6px}
+    .badge{display:inline-block;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:800;margin-left:8px}
+    .muted{color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .hero-metrics{grid-template-columns:repeat(3,1fr)}
+      .grid-2{grid-template-columns:1fr}
+      .projects{grid-template-columns:1fr 1fr}
+      .nb-iframe{height:560px}
+    }
+    @media (max-width: 640px){
+      .links{display:none}
+      .hero-metrics{grid-template-columns:1fr 1fr}
+      .projects{grid-template-columns:1fr}
+      .btn{width:100%;text-align:center}
+      .home-btn{width:100%;justify-content:center}
+      .nb-iframe{height:520px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- NAV -->
+    <nav class="nav" aria-label="Top">
+      <div class="brand">
+        <img alt="Anchor favicon" src="https://cdn-icons-png.flaticon.com/512/306/306812.png"/>
+        <span>Telco Customer Churn</span>
+      </div>
+      <div class="links">
+        <a href="https://haseebsagheer.com/" class="home-btn" title="Homepage">
+          <!-- home -->
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
+          Homepage
+        </a>
+        <a href="#overview" title="Overview">
+          <!-- info -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"/></svg>
+          Overview
+        </a>
+        <a href="#business" title="Business">
+          <!-- target -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 3a7 7 0 1 1 0 14A7 7 0 0 1 12 5Zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg>
+          Business
+        </a>
+        <a href="#models" title="Models">
+          <!-- chip -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9 3h6v2h2a2 2 0 0 1 2 2v2h2v2h-2v2h2v2h-2v2a2 2 0 0 1-2 2h-2v2H9v-2H7a2 2 0 0 1-2-2v-2H3v-2h2v-2H3V9h2V7a2 2 0 0 1 2-2h2V3Zm-2 6v6h10V9H7Z"/></svg>
+          Models
+        </a>
+        <a href="#results" title="Results">
+          <!-- trophy -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M18 4h2a1 1 0 0 1 1 1v1a5 5 0 0 1-5 5h-.1A6 6 0 0 1 13 14h3v2H8v-2h3a6 6 0 0 1-2.9-3H8a5 5 0 0 1-5-5V5a1 1 0 0 1 1-1h2V3h12v1Z"/></svg>
+          Results
+        </a>
+        <a href="#notebook" title="Notebook">
+          <!-- doc -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1v5h5"/></svg>
+          Notebook
+        </a>
+        <a href="https://github.com/engrhaseebsagheer/customer-churn" target="_blank" rel="noopener" title="Source Code">
+          <!-- link -->
+          <svg class="icon" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3ZM5 5h6v2H7v10h10v-4h2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>
+          Source
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-card">
+        <div class="kicker">Portfolio Case Study</div>
+        <h1>Telco Customer Churn Prediction</h1>
+        <p class="subtitle">
+          Predict which customers are likely to leave, understand <em>why</em>, and act before they churn.
+          Clean pipeline: data import → EDA → preprocessing → <strong>Logistic Regression</strong> & <strong>Random Forest</strong> → evaluation → insights.
+        </p>
+        <div class="hero-metrics" role="list">
+          <div class="metric" role="listitem">
+            <span class="muted">Accuracy (LR / RF)</span>
+            <strong>~80%</strong>
+          </div>
+          <div class="metric" role="listitem">
+            <span class="muted">ROC-AUC</span>
+            <strong>~0.84</strong>
+          </div>
+          <div class="metric" role="listitem">
+            <span class="muted">Focus</span>
+            <strong>Interpretability</strong>
+          </div>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="https://github.com/engrhaseebsagheer/customer-churn" target="_blank" rel="noopener">View Source on GitHub</a>
+          <a class="btn ghost" href="#results">Skip to Results</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Project quick facts">
+        <h3>Quick Facts</h3>
+        <ul class="list">
+          <li><strong>Type:</strong> Supervised binary classification</li>
+          <li><strong>Target:</strong> <code>Churn</code> (Yes/No)</li>
+          <li><strong>Key features:</strong> Contract type, tenure, monthly charges, total charges, internet service, payment method</li>
+          <li><strong>Why these models?</strong> Logistic Regression for clarity; Random Forest for non-linear patterns</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="grid-2">
+      <article class="card">
+        <h2>📌 Description</h2>
+        <p>
+          I predicted <strong>why customers churn</strong> and <strong>who is likely to churn</strong> for a telecom company.
+          The project runs end-to-end: import data, clean it, engineer features, train and compare models, and explain key drivers.
+        </p>
+        <div class="steps" aria-label="High-level steps">
+          <div class="step"><strong>1.</strong> Load and audit dataset</div>
+          <div class="step"><strong>2.</strong> EDA for trends and issues</div>
+          <div class="step"><strong>3.</strong> Clean & encode (binary + OHE)</div>
+          <div class="step"><strong>4.</strong> Train LR & RF</div>
+          <div class="step"><strong>5.</strong> Evaluate (Accuracy, ROC-AUC, F1, CM)</div>
+          <div class="step"><strong>6.</strong> Explain drivers (feature importance)</div>
+        </div>
+      </article>
+
+      <aside id="business" class="card">
+        <h2>Understanding the Problem</h2>
+        <p><strong>Main problem:</strong> The company is losing customers and needs to identify <em>who</em> is at risk and <em>why</em>.</p>
+        <p><strong>Why it matters:</strong> Churn hits revenue and raises acquisition costs. Early signals allow <strong>retention actions</strong>
+           like discounts, plan recommendations, or better support.</p>
+        <h3>Business Questions I Considered</h3>
+        <ul class="list">
+          <li>What exactly is “churn” for the business, and when is it recorded?</li>
+          <li>How will predictions change retention strategy and revenue?</li>
+          <li>Which actions will be triggered for high-risk customers?</li>
+          <li>How will we measure success after deploying the model?</li>
+        </ul>
+        <h3>Constraints & Assumptions</h3>
+        <ul class="list">
+          <li>Use only fields available before churn happens (avoid leakage)</li>
+          <li>Balanced train/validation via stratified split</li>
+          <li>Keep a clear baseline first, then add complexity</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- DATA UNDERSTANDING -->
+    <section class="grid-2" aria-label="Data Understanding & Preprocessing">
+      <div class="card">
+        <h2>Data Understanding & Preprocessing</h2>
+        <ul class="list">
+          <li>Checked for missing/null/NaN</li>
+          <li>Cleaned <code>TotalCharges</code> (non-numeric entries)</li>
+          <li>Binary columns (<code>Yes/No</code>) → <code>1/0</code></li>
+          <li>Nominal categoricals → One-Hot Encoding</li>
+          <li>Dropped IDs and obvious non-signals (<code>customerID</code>; optionally <code>gender</code>)</li>
+          <li>Stratified train/test split to keep churn ratio stable</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Visual Checks</h2>
+        <ul class="list">
+          <li>Churn rate distribution (overall baseline)</li>
+          <li>Churn by contract type, internet service, payment method, tenure</li>
+          <li>Boxplots for numeric features (monthly/total charges)</li>
+        </ul>
+        <p class="df-note">These gave business-level insight even before modeling.</p>
+      </div>
+    </section>
+
+    <!-- MODELS -->
+    <section id="models" class="grid-2" aria-label="Models">
+      <div class="card">
+        <h2>Logistic Regression</h2>
+        <ul class="list">
+          <li>Simple, explainable baseline</li>
+          <li>~80% accuracy on the test set</li>
+          <li>ROC-AUC around 0.84</li>
+          <li>Reported: precision, recall, F1, confusion matrix</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Random Forest Classifier</h2>
+        <ul class="list">
+          <li>Captures non-linear patterns</li>
+          <li>Also ~80% accuracy; ROC-AUC ~0.84</li>
+          <li>Feature importance to highlight drivers of churn</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="grid-2" aria-label="Insights">
+      <div class="card">
+        <h2>Feature Importance — What Drives Churn</h2>
+        <ul class="list">
+          <li><strong>Tenure:</strong> Shorter tenure → higher churn risk</li>
+          <li><strong>Total Charges:</strong> Lower totals often mean newer accounts → higher risk</li>
+          <li><strong>Contract Type:</strong> Month-to-month sees more churn than yearly contracts</li>
+          <li><strong>Internet Service:</strong> Fiber optic plan users churned more than DSL in this dataset</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Evaluation Metrics</h2>
+        <ul class="list">
+          <li>Accuracy</li>
+          <li>Precision / Recall / F1</li>
+          <li>ROC-AUC</li>
+          <li>Confusion Matrix</li>
+        </ul>
+        <p class="df-note">Choose thresholds based on business cost of false positives vs false negatives.</p>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results" aria-label="Results">
+      <div class="card">
+        <h2>Results & Next Steps</h2>
+        <ul class="list">
+          <li>End-to-end cycle: business framing → wrangling → modeling → evaluation → interpretation</li>
+          <li>Strong baseline with LR/RF at ~80% accuracy and ~0.84 ROC-AUC</li>
+        </ul>
+        <h3>Planned Improvements</h3>
+        <ul class="list">
+          <li>XGBoost with hyperparameter tuning</li>
+          <li>SHAP for customer-level explanations</li>
+          <li>Deploy a dashboard for retention teams</li>
+        </ul>
+        <p class="df-note">Completed: August 2025 • Author: Haseeb Sagheer • Stack: Python, pandas, scikit-learn, seaborn, matplotlib</p>
+      </div>
+    </section>
+
+    <!-- NOTEBOOK -->
+    <section id="notebook" aria-label="Notebook Preview">
+      <div class="card">
+        <h2>Notebook (HTML Preview)</h2>
+        <div class="nb-wrap">
+          <div class="nb-toolbar">
+            <div class="nb-title">customer_churn.html</div>
+            <a class="btn ghost" href="customer_churn.html" target="_blank" rel="noopener">Open in new tab</a>
+          </div>
+          <!-- Ensure customer_churn.html is in the same folder as this file -->
+          <iframe class="nb-iframe" src="customer_churn.html" title="Customer Churn Notebook"></iframe>
+        </div>
+        <div class="nb-note">If your host blocks iframes, use the button above to view the full notebook.</div>
+      </div>
+    </section>
+
+    <!-- OTHER PROJECTS -->
+    <section class="footer" aria-label="More projects">
+      <h2>More Projects</h2>
+      <div class="projects">
+        <div class="proj">
+          <h4><a href="https://haseebsagheer.com/fake-news-detector" target="_blank" rel="noopener">Fake News Detector (NLP)</a></h4>
+          <p class="muted">Web app + API that classifies news as real or fake. Deployed on VPS with HTTPS.</p>
+        </div>
+        <div class="proj">
+          <h4><a href="https://haseebsagheer.com/cv-generator" target="_blank" rel="noopener">CV Generator (Flask)</a></h4>
+          <p class="muted">Users enter details and get a downloadable PDF CV. Production on VPS.</p>
+        </div>
+        <div class="proj">
+          <h4>
+            <a href="https://github.com/engrhaseebsagheer/Cloud-Retail-Insights" target="_blank" rel="noopener">
+              Cloud Retail Insights (Azure)
+            </a>
+            <span class="badge">In Progress</span>
+          </h4>
+          <p class="muted">End-to-end retail analytics & forecasting with Azure services and dashboards.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:12px">
+        You can view my completed and in progress projects too.
+      </p>
+    </section>
+
+    <footer class="muted" style="text-align:center">
+      © 2025 Haseeb Sagheer. Built with care. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>
